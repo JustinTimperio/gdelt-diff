@@ -1,0 +1,10 @@
+[Unit]
+Description=Run gdelt_dif-v2.service
+
+[Timer]
+Unit=gdelt-dif.service
+OnBootSec=5min
+OnUnitActiveSec=60min
+
+[Install]
+WantedBy=multi-user.target

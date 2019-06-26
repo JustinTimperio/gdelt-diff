@@ -1,0 +1,10 @@
+[Unit]
+Description=Run gdelt_live.service
+
+[Timer]
+Unit=gdelt-live.service
+OnBootSec=5min
+OnUnitActiveSec=1min
+
+[Install]
+WantedBy=multi-user.target

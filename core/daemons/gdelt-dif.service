@@ -1,0 +1,6 @@
+[Unit]
+Description=Run gdelt_dif-v2.py
+
+[Service]
+Type=oneshot
+ExecStart=python /var/app/gdelt-dif/core/gdelt_dif-v2.py -d
