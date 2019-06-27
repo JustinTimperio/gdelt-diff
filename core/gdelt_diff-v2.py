@@ -11,8 +11,8 @@ ram_dir = '/tmp/gdelt-diff'
 
 def load_from_disk(file_path):
     if not os.path.exists(file_path):
-        try: shutil.copyfile(base_dir + str(file_path)[15:], file_path)
-        except IOError: sys.exit('Critical Error Restoring ' + file_path + ' from ' + base_dir + str(file_path)[14:] + '!')
+        try: shutil.copyfile(base_dir + str(file_path)[len(base_dir):], file_path)
+        except IOError: sys.exit('Critical Error Restoring ' + file_path + ' from ' + base_dir + str(file_path)[len(base_dir):] + '!')
 
 def install_packages():
     pacman_install('rsync parallel unzip gzip')
@@ -114,6 +114,8 @@ def gdelt_diff(lang, fzf_force=False):
         dlfs = {os.path.join(dp, f) for dp, dn, fn in os.walk(os.path.expanduser(fetch_path)) for f in fn}
         if len(dlfs) == 0:
             return  ## exit function if no files are found
+        ## Since each file type has a static name length, the fastest way to sort files is to use str_length as the sort mechanism
+        ## While this method is fast, it is prone to break so string length debugging is provided.
         if lang in 'translation':
             offset = 12
         else: offset = 0
@@ -139,7 +141,7 @@ def gdelt_diff(lang, fzf_force=False):
             elif len(fil) == len(fetch_path) + 31 + offset:
                 os.system("rsync --remove-source-files " + fil + " " + ltmem + "/" + fil[len(fetch_path)+1:-26 - offset] + "/" + fil[len(fetch_path)+5:-24 - offset])
             else:
-                print(str(len(fil)) + '=str_length :  File Name NOT Formated Correctly!')
+                print(str(len(fil)) + '==str_length | Check File Name: ' + fil)
 
 ###############
 ## Control Flow
