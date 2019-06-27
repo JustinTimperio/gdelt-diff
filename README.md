@@ -11,8 +11,9 @@ Additionally an extreamly small and fast script is provided to maintain a copy o
 _NOTE: This script is designed for large servers with a MINIMUM +1TB OS Drive, +10TB of storage, and +250GB of RAM._
 Additionally this script assumes you are not a pleb and are using Arch Linux.
 
-1. `sudo mkdir /var/app && sudo chmod 777 /var/app`
-2. `cd /var/app && git clone https://github.com/JustinTimperio/gdelt-diff.git`
-3. `sudo python3 /var/app/gdelt-diff/core/gdelt_diff-v2.py -i -d`
-4. After the download is complete, be sure to start the freshly enabled systemd.timers placed in /etc/systemd.
+1. Ensure that you have a pre-existing directory of GDELT files placed in folders orginized by Year then Month. (/2009/05/) While it is possible for the diff process to download and orginize the entire stream, it is NOT advised due to the tremedous disksize required for the os drive. It is possible though to update well over a 200k files including any missing files.
+2. `sudo mkdir /var/app && sudo chmod 777 /var/app`
+3. `cd /var/app && git clone https://github.com/JustinTimperio/gdelt-diff.git`
+4. `sudo python3 /var/app/gdelt-diff/core/gdelt_diff-v2.py -i -d`
+5. After the download is complete, be sure to start the freshly enabled systemd.timers placed in /etc/systemd.
 5. `sudo systemctl start gdelt-dif.timer gdelt-live.timer`
