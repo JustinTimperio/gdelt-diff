@@ -9,5 +9,7 @@ _Install Instruction_
 NOTE: This script is designed for large servers with a MINIMUM +1TB OS Drive, +10TB of storage, and +250GB of RAM.
 
 `sudo mkdir /var/app`
+
 `cd /var/app && git clone https://github.com/JustinTimperio/gdelt-dif.git`
+
 `sudo python3 /var/app/gdelt-dif/core/gdelt_dif-v2.py -i`
