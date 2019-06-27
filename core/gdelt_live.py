@@ -11,7 +11,7 @@ def install_gdelt_live():
 
 def gdelt_live(lang):
     ## downloading most recent file list
-    if english in lang:
+    if 'english' in lang:
         dln = requests.get('http://data.gdeltproject.org/gdeltv2/lastupdate.txt')
     else:
         dln = requests.get('http://data.gdeltproject.org/gdeltv2/lastupdate-translation.txt')
@@ -66,6 +66,5 @@ elif arguments.english:
     gdelt_live('english') 
 else:
     gdelt_live('english')
-    both()
     print('-----------------------')
     gdelt_live('translation')

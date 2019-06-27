@@ -33,12 +33,6 @@ def read_list(file_name):
     list_name = list(open(file_name).read().splitlines()) 
     return list_name
 
-def load_from_disk(file_path):
-    import shutil
-    if not os.path.exists(file_path): 
-        try: shutil.copyfile(file_path)
-        except IOError: sys.exit('Critical Error Restoring ' + file_path)
-
 ######
 ### Web Crawling and Downloading Fuctions
 ######

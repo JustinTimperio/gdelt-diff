@@ -1,8 +1,8 @@
 [Unit]
-Description=Run gdelt_dif-v2.service
+Description=Run gdelt_diff-v2.service
 
 [Timer]
-Unit=gdelt-dif.service
+Unit=gdelt-diff.service
 OnBootSec=5min
 OnUnitActiveSec=60min
 
