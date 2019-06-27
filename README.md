@@ -9,6 +9,6 @@ After a fresh install is performed the script runs automatically every 60 mins, 
 ## _Install Instruction_
 NOTE: This script is designed for large servers with a MINIMUM +1TB OS Drive, +10TB of storage, and +250GB of RAM.
 
-1.`sudo mkdir /var/app`
-1.`cd /var/app && git clone https://github.com/JustinTimperio/gdelt-dif.git`
-1.`sudo python3 /var/app/gdelt-dif/core/gdelt_dif-v2.py -i`
+1. `sudo mkdir /var/app`
+1. `cd /var/app && git clone https://github.com/JustinTimperio/gdelt-dif.git`
+1. `sudo python3 /var/app/gdelt-dif/core/gdelt_dif-v2.py -i`
