@@ -1,6 +1,6 @@
 #### Download, convert, and sort gdelt source files automatically
 ## This script requires: gnu rsync, gnu parallel, linux unzip, gnu gzip, linux touch, python wget, python requests 
-import requests, re, shutil, wget, os, sys, argparse
+import requests, re, shutil, wget, argparse
 from global_defuns import *
 
 ###############
@@ -19,10 +19,13 @@ def gdelt_dif(lang, fzf_force=False):
 ###########
 ### Install dependinces and build app
 ########
-    def fresh_install():
-        print('Starting Fresh Install....')
+    def install_packages():
         pacman_install('rsync parallel unzip gzip')
         pip_install('wget requests')
+        os.system('sudo cp ' + base_dir + '/core/daemons/* /etc/systemd/system/')
+        os.system('sudo systemctl daemon-reload && sudo systemctl enable gdelt-dif.timer gdelt-live.timer')
+
+    def fresh_install():
         homedir = input('Enter the FULL Path of the Existing ' + lang.upper() + ' Gdelt Repo (IE:/mnt/lt-mem/gdelt-v2/' + lang + '-stream):') 
         mkdir(base_dir, 'u')
         ## export path for stream
@@ -43,6 +46,7 @@ def gdelt_dif(lang, fzf_force=False):
         fresh = input('Persistence Files for ' + lang.upper() + ' are Missing! Do You Want to Perform a Fresh Install? (y/n):')
         if fresh.lower() in ['y','yes']: 
             fresh_install()
+            print('Starting Fresh Install....')
         else:
             return
 
@@ -162,11 +166,13 @@ def gdelt_dif(lang, fzf_force=False):
 
 ###############
 
-def remove():
-    if os.path.exists('/tmp/gdelt-dif'):
-        shutil.rmtree('/tmp/gdelt-dif')
-    if os.path.exists('/var/tmp/gdelt-dif'):
-        shutil.rmtree('/var/tmp/gdelt-dif')
+def remove_data():
+    rm_dir('/tmp/gdelt-dif', 'r')
+    rm_dir(base_dir + '/english-dl', 'r')
+    rm_dir(base_dir + '/translation-dl', 'r')
+    app_files = {base_dir + '/404-english.txt', base_dir + '/404-translation.txt', base_dir + '/master-english-previous.txt', base_dir + '/master-translation-previous.txt', base_dir + '/path-english.txt', base_dir + '/path-translation.txt'}
+    for file_path in app_files:
+        rm_dir(file_path, 'r')
     sys.exit('All Files Removed!')
 
 ###############
@@ -178,9 +184,12 @@ parser.add_argument("-dt", "--dif_translation", action='store_true', help="Dif a
 parser.add_argument("-r", "--retry", action='store_true', help="Force a 404-Retry on All Missing or Dead Files in BOTH Streams.")
 parser.add_argument("-re", "--retry_english", action='store_true', help="Force a 404-Retry on All Missing or Dead Files in English Stream.")
 parser.add_argument("-rt", "--retry_translation", action='store_true', help="Force a 404-Retry on All Missing or Dead Files in Translation Stream.")
-parser.add_argument("-rm", "--remove", action='store_true', help="Remove All Percestince Files. AKA-Uninstall")
+parser.add_argument("-rm", "--remove", action='store_true', help="Remove All Persistence Files. AKA-Uninstall")
+parser.add_argument("-i", "--install", action='store_true', help="Install All Needed Packages.")
 arguments = parser.parse_args()
 ##
+if arguments.install:
+    install_packages()
 if arguments.dif:
     gdelt_dif('english')
     print('------------------')
@@ -200,6 +209,6 @@ elif arguments.retry_translation:
     retry('translation')
 ##
 elif arguments.remove:
-    remove()
+    remove_data()
 else:
     print('Missing Argument! Use --help to See All Arguments.')
