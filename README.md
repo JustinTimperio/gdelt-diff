@@ -5,8 +5,8 @@ To maintain consistency across our data sets, these files are converted upon dow
 Due to the large size of the GDELT source files extra care is taken to ensure that as much file proccessing as possible is done in ram.
 After a fresh install is performed the script runs automatically every 60 mins, fetching any missing files then exiting. Gdelt-dif.py itself is run via systemd.service and systemd.timer but can be used manually.
 
-_InstallInstruction_
+_Install Instruction_
 NOTE: This script is designed for large servers with a MINIMUM +1TB OS Drive, +10TB of storage, and +250GB of RAM.
-> sudo mkdir /var/app
-> cd /var/app && git clone https://github.com/JustinTimperio/gdelt-dif.git
-> sudo python3 /var/app/gdelt-dif/core/gdelt_dif-v2.py -i
+`sudo mkdir /var/app`
+`cd /var/app && git clone https://github.com/JustinTimperio/gdelt-dif.git`
+`sudo python3 /var/app/gdelt-dif/core/gdelt_dif-v2.py -i`
