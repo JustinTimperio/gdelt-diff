@@ -11,28 +11,27 @@ ram_dir = '/tmp/gdelt-dif'
 
 def load_from_disk(file_path):
     if not os.path.exists(file_path): 
-        try: shutil.copyfile(base_dir + str(file_path)[4:], file_path) 
-        except IOError: sys.exit('Critical Error Restoring ' + file_path + ' from the disk!')
+        try: shutil.copyfile(base_dir + str(file_path)[14:], file_path) 
+        except IOError: sys.exit('Critical Error Restoring ' + file_path + ' from the ' + base_dir + str(file_path)[14:] + '!')
 
-##############
+def install_packages():
+    pacman_install('rsync parallel unzip gzip')
+    pip_install('wget requests')
+    os.system('sudo cp ' + base_dir + '/core/daemons/* /etc/systemd/system/')
+    os.system('sudo systemctl daemon-reload && sudo systemctl enable gdelt-dif.timer gdelt-live.timer')
+
 def gdelt_dif(lang, fzf_force=False):
 ###########
 ### Install dependinces and build app
 ########
-    def install_packages():
-        pacman_install('rsync parallel unzip gzip')
-        pip_install('wget requests')
-        os.system('sudo cp ' + base_dir + '/core/daemons/* /etc/systemd/system/')
-        os.system('sudo systemctl daemon-reload && sudo systemctl enable gdelt-dif.timer gdelt-live.timer')
-
     def fresh_install():
         homedir = input('Enter the FULL Path of the Existing ' + lang.upper() + ' Gdelt Repo (IE:/mnt/lt-mem/gdelt-v2/' + lang + '-stream):') 
         mkdir(base_dir, 'u')
         ## export path for stream
         with open(base_dir + '/path-' + lang + '.txt', 'w') as f:
             f.write(homedir)
-        mkdir(base_dir + '/' + lang + '-dl', 'u')
-        touch(base_dir + '/404-' + lang + '.txt', 'u')
+        mkdir(base_dir + '/' + lang + '-dl', 'r')
+        os.system('touch ' + base_dir + '/404-' + lang + '.txt')
         ## search file system
         print('Searching Through File System...')
         fs = {os.path.join(dp, f) for dp, dn, fn in os.walk(os.path.expanduser(homedir)) for f in fn} 
@@ -54,8 +53,9 @@ def gdelt_dif(lang, fzf_force=False):
 ### Start Core Dif Process
 #########
     ## restore all files to /tmp if missing
-    mkdir(ram_dir, 'u')
-    mkdir(ram_dir + '/' + lang + '-dl', 'u')
+    mkdir(ram_dir, 'r')
+##############
+    mkdir(ram_dir + '/' + lang + '-dl', 'r')
     load_from_disk(ram_dir + '/master-' + lang + '-previous.txt')
     load_from_disk(ram_dir + '/404-' + lang + '.txt')
     load_from_disk(ram_dir + '/path-' + lang + '.txt')
@@ -88,8 +88,8 @@ def gdelt_dif(lang, fzf_force=False):
         if fzf_force == True or len(fzfnew) >= 1:
             ## retry any 404's 
             print('\nRetrying Previous 404\'s...') 
-            fzfold = read_list('/tmp/gdelt-dif/404-' + lang + '.txt')
-            fzf = fzfold|fzfnew ## combine any old 404's with any new 404's
+            fzfold = set(read_list('/tmp/gdelt-dif/404-' + lang + '.txt'))
+            fzf = set(fzfold|fzfnew) ## combine any old 404's with any new 404's
             for url in fzf:
                 try: wget.download(url,fetch_path)
                 except: fzfnew.add(url)
@@ -107,7 +107,6 @@ def gdelt_dif(lang, fzf_force=False):
         print('Compressing Files to .gz...')
         try: os.system('cd ' + fetch_path + ' && parallel gzip ::: *')
         except: print('Unable to Compress Files!') 
-
 #############
 ## Sort Download Source Files into Folders
 #########
@@ -125,13 +124,11 @@ def gdelt_dif(lang, fzf_force=False):
         ## make year dirs
         years = {"/" + path[37:-22 - offset] for path in gkgs}
         for year in years:
-            if not os.path.exists(ltmem + year):
-                os.makedirs(ltmem + year)
+            mkdir(ltmem + year, 'u')
         ## make month dirs
         months = {"/" + path[37:-22 - offset] + "/" + path[41:-20 - offset] for path in gkgs} 
         for month in months:
-            if not os.path.exists(str(ltmem) + month):
-                os.makedirs(str(ltmem) + month)
+            mkdir(ltmem + month, 'u')
         ## move files to ltmem
         print("Moving Files...")
         for fil in dlfs:
@@ -146,18 +143,21 @@ def gdelt_dif(lang, fzf_force=False):
  
 ###############
 ## Control Flow
-###############
-    print(str(len(dif)))
+###########
     if len(dif) > 10000:
         large_yn = input('More than 10k Files Are Missing! Do You Still Want to Continue? (y/n):')
         if large_yn.lower() in ['y','yes']: 
-            fetch_path = str(base_dir + '/' + lang + '-dl/')
+            fetch_path = str(base_dir + '/' + lang + '-dl')
             print('This May Take a While! Starting Download...')
         else: sys.exit('Update Canceled!')
     elif 10000 > len(dif) >= 1:
-        fetch_path = str(ram_dir + "/" + lang + '-dl/')
+        fetch_path = str(ram_dir + "/" + lang + '-dl')
+    elif fzf_force == True:
+        print('Forcing 404 Retry!')
+        fetch_path = str(ram_dir + "/" + lang + '-dl')
     elif len(dif) == 0:
-        print('Source Files Up to Date!')
+        fetch_path = str(ram_dir + "/" + lang + '-dl')
+        print('Source Files are Already Up to Date!')
         return
     fetch()
     convert()
@@ -167,7 +167,7 @@ def gdelt_dif(lang, fzf_force=False):
 ###############
 
 def remove_data():
-    rm_dir('/tmp/gdelt-dif', 'r')
+    rm_dir(ram_dir, 'r')
     rm_dir(base_dir + '/english-dl', 'r')
     rm_dir(base_dir + '/translation-dl', 'r')
     app_files = {base_dir + '/404-english.txt', base_dir + '/404-translation.txt', base_dir + '/master-english-previous.txt', base_dir + '/master-translation-previous.txt', base_dir + '/path-english.txt', base_dir + '/path-translation.txt'}
