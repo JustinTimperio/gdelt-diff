@@ -11,8 +11,8 @@ ram_dir = '/tmp/gdelt-diff'
 
 def load_from_disk(file_path):
     if not os.path.exists(file_path):
-        try: shutil.copyfile(base_dir + str(file_path)[14:], file_path)
-        except IOError: sys.exit('Critical Error Restoring ' + file_path + ' from the ' + base_dir + str(file_path)[14:] + '!')
+        try: shutil.copyfile(base_dir + str(file_path)[15:], file_path)
+        except IOError: sys.exit('Critical Error Restoring ' + file_path + ' from ' + base_dir + str(file_path)[14:] + '!')
 
 def install_packages():
     pacman_install('rsync parallel unzip gzip')
