@@ -6,7 +6,7 @@ To maintain consistency across our data sets, these files are converted upon dow
 Due to the large size of the GDELT source files extra care is taken to ensure that as much file proccessing as possible is done in ram.
 After a fresh install is performed the script runs automatically every 60 mins, fetching any missing files then exiting. Gdelt-dif.py itself is run via systemd.service and systemd.timer but can be used manually.
 
-## Install Instruction
+## Install Instructions
 _NOTE: This script is designed for large servers with a MINIMUM +1TB OS Drive, +10TB of storage, and +250GB of RAM._
 Additionally this script assumes you are not a pleb and are using Arch Linux.
 
