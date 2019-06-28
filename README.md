@@ -16,4 +16,4 @@ Additionally this script assumes you are not a pleb and are using Arch Linux.
 3. `cd /var/app && git clone https://github.com/JustinTimperio/gdelt-diff.git`
 4. `sudo python3 /var/app/gdelt-diff/core/gdelt_diff-v2.py -i -d`
 5. After the download is complete, be sure to start the freshly enabled systemd.timers placed in /etc/systemd.
-5. `sudo systemctl start gdelt-dif.timer gdelt-live.timer`
+5. `sudo systemctl start gdelt-diff.timer gdelt-live.timer`
