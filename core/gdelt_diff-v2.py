@@ -49,7 +49,6 @@ def gdelt_diff(lang, fzf_force=False):
     #########
     ## restore all files to /tmp if missing
     mkdir(ram_dir, 'r')
-    ##############
     mkdir(ram_dir + '/' + lang + '-dl', 'r')
     load_from_disk(ram_dir + '/master-' + lang + '-previous.txt')
     load_from_disk(ram_dir + '/404-' + lang + '.txt')
@@ -102,6 +101,7 @@ def gdelt_diff(lang, fzf_force=False):
         print('Compressing Files to .gz...')
         try: os.system('cd ' + fetch_path + ' && parallel gzip ::: *')
         except: print('Unable to Compress Files!')
+
     #############
     ## Sort Download Source Files into Folders
     #########
