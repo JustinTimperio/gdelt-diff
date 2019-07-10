@@ -1,10 +1,10 @@
 ###### Useful Defs for Python3 Projects
-#### Version - 1.2.2
+#### Version - 1.2.4
 
 ######
 ## Basic Functions
 ######
-import os, sys
+import os, sys, subprocess
 
 def date_to_today(year, month, day, set_name):
     import datetime
@@ -77,14 +77,6 @@ def search_fs(path):
     list_name = [os.path.join(dp, f) for dp, dn, fn in os.walk(os.path.expanduser(path)) for f in fn] 
     return list_name
 
-def touch(file, sudo):
-    if sudo == 'r':
-        if not os.path.exists:
-            os.system("sudo touch " + file)
-    if sudo == 'u':
-        if not os.path.exists:
-            os.system("touch " + file)
-
 def rm_file(file_path, sudo):
     if sudo == 'r':
         if os.path.exists(file_path):
@@ -110,15 +102,23 @@ def rm_dir(dir_path, sudo):
             os.system('rm -r ' + dir_path)
 
 ######
-### System Package Commands
+### Linux System Package Commands
 ######
+def pacman(package, arg='-S'):
+    os.system("sudo pacman " + arg + " " + package + " --needed")
 
-def aurman_install(packages):
-    os.system("aurman -S --needed " + packages)
+def apt(package, arg='install'):
+    os.system("sudo apt-get " + arg + " " + package)
 
-def pacman_install(package, local='-S'):
-    os.system("sudo pacman " + local + " " + package + " --needed")
+def yum(package, arg='install'):
+    os.system("sudo yum " + arg + " " + package)
 
 def pip_install(packages):
     os.system("sudo pip install " + packages)
 
+def aurman_install(packages):
+    os.system("aurman -S --needed " + packages)
+
+def os_distro():
+    os_name = subprocess.Popen('cat /etc/os-release | grep PRETTY_NAME= | cut -c 14- | rev | cut -c 2- | rev', shell=True, stdout=subprocess.PIPE).stdout
+    return os_name

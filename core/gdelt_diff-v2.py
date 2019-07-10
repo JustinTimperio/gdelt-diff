@@ -2,6 +2,7 @@
 ## This script requires: gnu rsync, gnu parallel, linux unzip, gnu gzip, linux touch, python wget, python requests
 import requests, re, shutil, wget, argparse
 from global_defuns import *
+from setup import *
 
 ###############
 ## Defs and Vars
@@ -14,16 +15,10 @@ def load_from_disk(file_path):
         try: shutil.copyfile(base_dir + str(file_path)[len(base_dir):], file_path)
         except IOError: sys.exit('Critical Error Restoring ' + file_path + ' from ' + base_dir + str(file_path)[len(base_dir):] + '!')
 
-def install_packages():
-    pacman_install('rsync parallel unzip gzip')
-    pip_install('wget requests')
-    os.system('sudo cp ' + base_dir + '/core/daemons/* /etc/systemd/system/')
-    os.system('sudo systemctl daemon-reload && sudo systemctl enable gdelt-diff.timer gdelt-live.timer')
-
 def gdelt_diff(lang, fzf_force=False):
-###########
-### Install dependinces and build app
-########
+    ###########
+    ### Install dependinces and build app
+    ########
     def fresh_install():
         homedir = input('Enter the FULL Path of the Existing ' + lang.upper() + ' Gdelt Repo (IE:/mnt/lt-mem/gdelt-v2/' + lang + '-stream):')
         mkdir(base_dir, 'u')
@@ -49,12 +44,12 @@ def gdelt_diff(lang, fzf_force=False):
         else:
             return
 
-#############
-### Start Core diff Process
-#########
+    #############
+    ### Start Core diff Process
+    #########
     ## restore all files to /tmp if missing
     mkdir(ram_dir, 'r')
-##############
+    ##############
     mkdir(ram_dir + '/' + lang + '-dl', 'r')
     load_from_disk(ram_dir + '/master-' + lang + '-previous.txt')
     load_from_disk(ram_dir + '/404-' + lang + '.txt')
@@ -73,9 +68,9 @@ def gdelt_diff(lang, fzf_force=False):
     dlp = read_list(ram_dir + '/master-' + lang + '-previous.txt')
     diff = set(dln).difference(dlp)
 
-#############
-### Download Gdelt Files
-#########
+    #############
+    ### Download Gdelt Files
+    #########
     def fetch():
         fzfnew = set()
         ## main download function
@@ -97,9 +92,9 @@ def gdelt_diff(lang, fzf_force=False):
             export_list('/tmp/gdelt-diff/404-' + lang + '.txt', fzfnew)
             export_list(base_dir + '/404-' + lang + '.txt', fzfnew)
 
-#############
-### Convert Gdelt Source Files from .zip to .gz
-#########
+    #############
+    ### Convert Gdelt Source Files from .zip to .gz
+    #########
     def convert():
         print('\nUnzipping Files...')
         try: os.system('cd ' + fetch_path + ' && parallel unzip -qq ::: * && find . -iname "*.zip" -delete')
@@ -107,15 +102,15 @@ def gdelt_diff(lang, fzf_force=False):
         print('Compressing Files to .gz...')
         try: os.system('cd ' + fetch_path + ' && parallel gzip ::: *')
         except: print('Unable to Compress Files!')
-#############
-## Sort Download Source Files into Folders
-#########
+    #############
+    ## Sort Download Source Files into Folders
+    #########
     def sort():
         dlfs = {os.path.join(dp, f) for dp, dn, fn in os.walk(os.path.expanduser(fetch_path)) for f in fn}
         if len(dlfs) == 0:
             return  ## exit function if no files are found
-        ## Since each file type has a static name length, the fastest way to sort files is to use str_length as the sort mechanism
-        ## While this method is fast, it is prone to break so string length debugging is provided.
+        ## Since each file type has a static name length, the fastest way to sort files by type is to use file name str_length
+        ## While this method is fast it can be prone to break, so string length debugging is provided.
         if lang in 'translation':
             offset = 12
         else: offset = 0
@@ -143,16 +138,16 @@ def gdelt_diff(lang, fzf_force=False):
             else:
                 print(str(len(fil)) + '==str_length | Check File Name: ' + fil)
 
-###############
-## Control Flow
-###########
-    if len(diff) > 10000:
-        large_yn = input('More than 10k Files Are Missing! Do You Still Want to Continue? (y/n):')
+    ###############
+    ## Control Flow
+    ###########
+    if len(diff) > 8000:
+        large_yn = input('More than 8k Files Are Missing! Do You Still Want to Continue? (y/n):')
         if large_yn.lower() in ['y','yes']:
             fetch_path = str(base_dir + '/' + lang + '-dl')
             print('This May Take a While! Starting Download...')
         else: sys.exit('Update Canceled!')
-    elif 10000 > len(diff) >= 1:
+    elif 8000 > len(diff) >= 1:
         fetch_path = str(ram_dir + "/" + lang + '-dl')
     elif fzf_force == True:
         print('Forcing 404 Retry!')
@@ -166,18 +161,7 @@ def gdelt_diff(lang, fzf_force=False):
     sort()
     print(lang.upper() + ' diff Complete!')
 
-###############
-
-def remove_data():
-    rm_dir(ram_dir, 'r')
-    rm_dir(base_dir + '/english-dl', 'r')
-    rm_dir(base_dir + '/translation-dl', 'r')
-    app_files = {base_dir + '/404-english.txt', base_dir + '/404-translation.txt', base_dir + '/master-english-previous.txt', base_dir + '/master-translation-previous.txt', base_dir + '/path-english.txt', base_dir + '/path-translation.txt'}
-    for file_path in app_files:
-        rm_dir(file_path, 'r')
-    sys.exit('All Files Removed!')
-
-###############
+##############
 
 parser = argparse.ArgumentParser(description="This script is used to automatically maintain a repository for the Gdelt Project. This script requires: gnu rsync, gnu parallel, linux unzip, gnu gzip, linux touch, linux find, python wget, python requests. Delete /var/tmp/gdelt-diff & /tmp/gdelt-diff to force a fresh install.")
 parser.add_argument("-d", "--diff", action='store_true', help="diff and Download BOTH Gdelt Streams.")

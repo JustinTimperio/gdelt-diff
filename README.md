@@ -8,8 +8,7 @@ After a fresh install is performed the script runs automatically every 60 mins, 
 Additionally an extreamly small and fast script is provided to maintain a copy of the streams most recent files in /tmp/gdelt-live.
 
 ## Install Instructions
-_NOTE: This script is designed for large servers with a MINIMUM +1TB OS Drive, +10TB of storage, and +250GB of RAM._
-Additionally this script assumes you are not a pleb and are using Arch Linux.
+_NOTE: This script is designed for large servers with a MINIMUM +1TB OS Drive, +10TB of storage, and +128GB of RAM._
 
 1. `sudo mkdir /var/app && sudo chmod 777 /var/app`
 2. `cd /var/app && git clone https://github.com/JustinTimperio/gdelt-diff.git`
