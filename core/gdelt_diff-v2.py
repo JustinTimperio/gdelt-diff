@@ -109,7 +109,7 @@ def gdelt_diff(lang, fzf_force=False):
         dlfs = {os.path.join(dp, f) for dp, dn, fn in os.walk(os.path.expanduser(fetch_path)) for f in fn}
         if len(dlfs) == 0:
             return  ## exit function if no files are found
-        ## Since each file type has a static name length, the fastest way to sort files by type is to use file name str_length
+        ## Since each file type has a static name length, the fastest way to trim and sort file names is using the filename str_length
         ## While this method is fast it can be prone to break, so string length debugging is provided.
         if lang in 'translation':
             offset = 12
