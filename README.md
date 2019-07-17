@@ -14,7 +14,7 @@ _NOTE: This script is designed for large servers with a MINIMUM +1TB OS Drive, +
 2. `sudo mkdir /var/app && sudo chmod 777 /var/app`
 3. `cd /var/app && git clone https://github.com/JustinTimperio/gdelt-diff.git`
 4. `sudo python3 /var/app/gdelt-diff/core/gdelt_diff-v2.py -i -d`
-5. After the download is complete, be sure to start the freshly enabled systemd.timers placed in /etc/systemd.
-5. `sudo systemctl start gdelt-diff.timer gdelt-live.timer`
+5. After the download is complete, be sure to start the freshly enabled systemd.timers placed in /etc/systemd.  
+`sudo systemctl start gdelt-diff.timer gdelt-live.timer`
 
 If you experince any issues or bugs please submit a issue. Thanks!
