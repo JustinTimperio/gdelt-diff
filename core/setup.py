@@ -6,7 +6,6 @@ from global_defuns import *
 def install_packages():
     os_name = os_distro() 
     pip_install('wget requests')
-    pacman_install('rsync parallel unzip gzip')
     if 'arch' in os_name.lower():
         pacman('rsync parallel unzip gzip')
     elif 'debian' or 'ubuntu' in os_name.lower():
