@@ -27,8 +27,8 @@ To unistall the app use:
 
 To sync only one stream use:
 
-`sudo python3 /var/app/gdelt-diff/core/gdelt-diff-v2.py -diff_english`
-or
+`sudo python3 /var/app/gdelt-diff/core/gdelt-diff-v2.py -diff_english`\
+or\
 `sudo python3 /var/app/gdelt-diff/core/gdelt-diff-v2.py -diff_translation`
 
 To force a fetch of all 404'ed urls use:
