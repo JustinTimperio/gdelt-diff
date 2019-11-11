@@ -13,31 +13,31 @@ _NOTE: This script is designed for large servers with a MINIMUM +1TB OS Drive, +
 3. `cd /var/app && git clone https://github.com/JustinTimperio/gdelt-diff.git`  
 4. `sudo python3 /var/app/gdelt-diff/core/gdelt_diff-v2.py -i -d`  
 5. After the download is complete, be sure to start the freshly enabled systemd.timers placed in /etc/systemd.  
-	`sudo systemctl start gdelt-diff.timer gdelt-live.timer`  
+`sudo systemctl start gdelt-diff.timer gdelt-live.timer`  
   
 
 ## CLI-Tool
 When using the script manually simply stop the systemd.timers and call gdelt-diff-v2.py manually:
 
-		sudo python3 /var/app/gdelt-diff/core/gdelt-diff-v2.py -d
+`sudo python3 /var/app/gdelt-diff/core/gdelt-diff-v2.py -d`
 
 To unistall the app use:
 
-		sudo python3 /var/app/gdelt-diff/core/gdelt-diff-v2.py -remove
+`sudo python3 /var/app/gdelt-diff/core/gdelt-diff-v2.py -remove`
 
 To sync only one stream use:
 
-		sudo python3 /var/app/gdelt-diff/core/gdelt-diff-v2.py -diff_english
-	or
-		sudo python3 /var/app/gdelt-diff/core/gdelt-diff-v2.py -diff_translation
+`sudo python3 /var/app/gdelt-diff/core/gdelt-diff-v2.py -diff_english`
+or
+`sudo python3 /var/app/gdelt-diff/core/gdelt-diff-v2.py -diff_translation`
 
 To force a fetch of all 404'ed urls use:
 
-		sudo python3 /var/app/gdelt-diff/core/gdelt-diff-v2.py -retry
+`sudo python3 /var/app/gdelt-diff/core/gdelt-diff-v2.py -retry`
 
 To see all options and usage use:
 
-		sudo python3 /var/app/gdelt-diff/core/gdelt-diff-v2.py -help
+`sudo python3 /var/app/gdelt-diff/core/gdelt-diff-v2.py -help`
 
 
 				
