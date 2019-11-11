@@ -1,4 +1,4 @@
-# GDELT-Diff - _BETA-State_  
+# GDELT-Diff - _Alpha_  
 This script is designed to download, convert, and sort GDELT source files automatically into a user-specified path. https://www.gdeltproject.org/data.html#rawdatafiles  
   
 ## Description  
