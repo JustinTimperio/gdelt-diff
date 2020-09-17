@@ -1,5 +1,5 @@
 [Unit]
-Description=Run gdelt_live.service
+Description=Run gdelt-live.service
 
 [Timer]
 Unit=gdelt-live.service

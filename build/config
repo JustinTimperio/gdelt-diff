@@ -1,0 +1,10 @@
+## GDELT-Diff Config Files
+## Version 1.0
+
+## Mandatory Settings
+
+# English Storage Path
+english_path = '/path/here'
+
+# Translation Storage Path
+translation_path = '/path/here'

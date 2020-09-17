@@ -1,5 +1,5 @@
 [Unit]
-Description=Run gdelt_diff-v2.service
+Description=Run gdelt-diff.service
 
 [Timer]
 Unit=gdelt-diff.service

@@ -1,0 +1,6 @@
+[Unit]
+Description=Run gdelt-diff.py
+
+[Service]
+Type=oneshot
+ExecStart=python /opt/gdelt-diff/core/gdelt-diff.py -d

@@ -1,10 +1,5 @@
-# Ignore data folder 
-english-dl/
-translation-dl/
+core/__pycache__
 404-english.txt
 404-translation.txt
-master-english-previous.txt
-master-translation-previous.txt
-path-english.txt
-path-translation.txt
-core/__pycache__
+prev-english.txt
+prev-translation.txt
