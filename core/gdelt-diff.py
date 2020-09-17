@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 import os
 import sys
 import paf
@@ -17,16 +18,15 @@ config = {
     }
 
 
-def fresh_install(lang, user_config, config):
+def fresh_install(lang, uc, config):
     '''
     '''
-    uc = paf.read_config(config['user_config'])
     if uc[lang + '_path'] == '/path/here':
         paf.prWarning('Your Config File Has Not Been Setup for the ' + lang + ' Stream!')
         sys.exit('Edit the File ' + config['config_file'] + ' and Re-Run Your Command!')
 
     paf.prWorking('Scanning File System...')
-    files = paf.basenames(paf.find_files(user_config[lang + '_path']))
+    files = paf.basenames(paf.find_files(uc[lang + '_path']))
     files = {"http://data.gdeltproject.org/gdeltv2/" + f for f in files}
     paf.export_iterable(config['base'] + '/prev-' + lang + '.txt', files)
     paf.export_iterable(config['base'] + '/404-' + lang + '.txt', [])
@@ -68,6 +68,11 @@ def retry(lang, config):
 def gdelt_diff(lang, config):
     '''
     '''
+    # Load User Config
+    mandatory = ['english_path', 'translation_path']
+    optional = []
+    uc = paf.read_config(config['user_config'], mandatory, optional)
+
     # Download Most Recent masterfilelist.txt
     if 'english' == lang:
         dln = requests.get(config['english'])
@@ -83,11 +88,11 @@ def gdelt_diff(lang, config):
     dlp_path = config['base'] + '/prev-' + lang + '.txt'
     fzf_path = config['base'] + '/404-' + lang + '.txt'
 
+    # Run Install If Fresh Run
     if not os.path.exists(dlp_path):
-        fresh_install(lang)
+        fresh_install(lang, uc, config)
 
     # Compare Previous Run
-    uc = paf.read_config(config['user_config'])
     dlp = paf.read_file(dlp_path)
     diff = set(dlc).difference(dlp)
 
@@ -97,7 +102,6 @@ def gdelt_diff(lang, config):
             print('This May Take a While! Starting Download...')
         else:
             sys.exit()
-
     if diff > 0:
         fzf = fetch(diff, uc[lang + '_path'])
         for x in paf.read_file(fzf_path):

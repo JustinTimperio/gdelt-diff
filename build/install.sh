@@ -19,4 +19,10 @@ sudo cp /opt/gdelt-diff/build/gdelt-live.timer /usr/lib/systemd/system/gdelt-liv
 # Enable Service Unit
 sudo systemctl daemon-reload
 
+echo ''
 echo Finished Installing GDELT-Diff!
+echo ''
+echo Make Sure to Edit Your User Config File: /etc/gdelt-diff/config
+echo Enable Automatic Downloads With: 'sudo systemctl enable gdelt-diff.timer'
+echo Enable Automatic Live Downloads With: 'sudo systemctl enable gdelt-live.timer'
+echo ''
