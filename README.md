@@ -31,9 +31,8 @@ _NOTE: This utlity is designed for large servers with a MINIMUM +100GB OS Drive,
 
 ## CLI-Tool
 When using the utlity manually simply stop the systemd.timers and call gdelt-diff manually:
-
 ```
-sudo gdelt-diff -d
+gdelt-diff -d
 ```
 
 To sync only one stream use:
