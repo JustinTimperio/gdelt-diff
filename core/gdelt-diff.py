@@ -122,26 +122,26 @@ arguments = parser.parse_args()
 
 
 if arguments.diff:
-    gdelt_diff('english')
+    gdelt_diff('english', config)
     print('')
-    gdelt_diff('translation')
+    gdelt_diff('translation', config)
 
 elif arguments.diff_english:
-    gdelt_diff('english')
+    gdelt_diff('english', config)
 
 elif arguments.diff_translation:
-    gdelt_diff('translation')
+    gdelt_diff('translation', config)
 
 if arguments.retry:
-    gdelt_diff('english')
+    gdelt_diff('english', config)
     print('')
-    gdelt_diff('translation')
+    gdelt_diff('translation', config)
 
 elif arguments.retry_english:
-    retry('english')
+    retry('english', config)
 
 elif arguments.retry_translation:
-    retry('translation')
+    retry('translation', config)
 
 else:
     print('Missing Argument! Use --help to See All Arguments.')
