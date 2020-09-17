@@ -12,23 +12,28 @@ To learn more about the GDELT and the records that make up its database, check o
 _NOTE: This utlity is designed for large servers with a MINIMUM +100GB OS Drive, +10TB of storage, and +32GB of RAM. Also please consider how many files you need to sync before running._  
   
 1. If you have a pre-existing directory of GDELT files, **YOU MUST** ensure that files are organized into folders by stream, year and month(`/path/stream/2015/05/`) 
-2. Install GDELT-Diff: `curl https://raw.githubusercontent.com/JustinTimperio/gdelt-diff/master/build/install.sh | bash`
-3. Edit Your User Config File With The Paths You Wish to Use: `vi /etc/gdelt-diff/config`
-4. Manually Run GDELT-Diff to Ensure Everything is Setup: `gdelt-diff -d`
-5. Enable Automatic Downloads With: `sudo systemctl enable gdelt-diff.timer`
-6. Enable Automatic Live Downloads With: `sudo systemctl enable gdelt-live.timer`
+2. Install GDELT-Diff:\
+```curl https://raw.githubusercontent.com/JustinTimperio/gdelt-diff/master/build/install.sh | bash```
+3. Edit Your User Config File With The Paths You Wish to Use:\
+```vi /etc/gdelt-diff/config```
+4. Manually Run GDELT-Diff to Ensure Everything is Setup:\
+```gdelt-diff -d```
+5. Enable Automatic Downloads With:\
+```sudo systemctl enable gdelt-diff.timer```
+6. Enable Automatic Live Downloads With:\
+```sudo systemctl enable gdelt-live.timer```
 
 ## Uninstall GDELT-Diff:
-_(This will NOT remove the files you have downloaded)_
+**This will NOT remove the files you have downloaded**
 ```
 /opt/gdelt-diff/build/remove.sh
 ```
 
 ## CLI-Tool
-When using the utlity manually simply stop the systemd.timers and call gdelt-diff-v2.py manually:
+When using the utlity manually simply stop the systemd.timers and call gdelt-diff manually:
 
 ```
-sudo gdelt-diff -full_diff
+sudo gdelt-diff -d
 ```
 
 To sync only one stream use:
