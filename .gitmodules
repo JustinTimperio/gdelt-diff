@@ -1,0 +1,3 @@
+[submodule "core/paf"]
+	path = core/paf
+	url = https://github.com/JustinTimperio/paf.git
