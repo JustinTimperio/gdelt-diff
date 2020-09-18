@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Clone Repo
-sudo git clone https://github.com/JustinTimperio/gdelt-diff.git /opt/gdelt-diff
+sudo git clone --recurse-submodules https://github.com/JustinTimperio/gdelt-diff.git /opt/gdelt-diff
 
 # Add Config to /etc
 sudo mkdir -p /etc/gdelt-diff
