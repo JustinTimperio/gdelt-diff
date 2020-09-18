@@ -4,7 +4,11 @@
 ## Mandatory Settings
 
 # English Storage Path
-english_path = '/path/here'
+english_path = /path/here
 
 # Translation Storage Path
-translation_path = '/path/here'
+translation_path = /path/here
+
+# Start Downloading at Date (all or YYYY/MM/DD) 
+start_date = all
+# start_date = 2020/01/01

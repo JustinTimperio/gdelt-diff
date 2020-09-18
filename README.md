@@ -13,43 +13,58 @@ _NOTE: This utlity is designed for large servers with a MINIMUM +100GB OS Drive,
   
 1. If you have a pre-existing directory of GDELT files, **YOU MUST** ensure that files are organized into folders by stream, year and month(`/path/stream/2015/05/`) 
 2. Install GDELT-Diff:\
-```curl https://raw.githubusercontent.com/JustinTimperio/gdelt-diff/master/build/install.sh | bash```
+```
+curl https://raw.githubusercontent.com/JustinTimperio/gdelt-diff/master/build/install.sh | bash
+```
 3. Edit Your User Config File With The Paths You Wish to Use:\
-```vi /etc/gdelt-diff/config```
+```
+sudo vi /etc/gdelt-diff/config
+```
 4. Manually Run GDELT-Diff to Ensure Everything is Setup:\
-```gdelt-diff -d```
+```
+sudo gdelt-diff -d
+```
 5. Enable Automatic Downloads With:\
-```sudo systemctl enable gdelt-diff.timer```
+```
+sudo systemctl enable gdelt-diff.timer
+```
 6. Enable Automatic Live Downloads With:\
-```sudo systemctl enable gdelt-live.timer```
+```
+sudo systemctl enable gdelt-live.timer
+```
 
 ## Uninstall GDELT-Diff:
 **This will NOT remove the files you have downloaded**
 ```
-/opt/gdelt-diff/build/remove.sh
+sudo /opt/gdelt-diff/build/remove.sh
 ```
 
 ## CLI-Tool
 When using the utlity manually simply stop the systemd.timers and call gdelt-diff manually:
 ```
-gdelt-diff -d
+sudo gdelt-diff --diff
 ```
 
 To sync only one stream use:
 ```
-gdelt-diff -english
+sudo gdelt-diff --diff_english
 ```
 OR
 ```
-gdelt-diff -translation
+sudo gdelt-diff --diff_translation
 ```
 
-To force a fetch of all 404'd URLs use:
+To force a fetch of  404'd URLs use:
 ```
-gdelt-diff -retry
+sudo gdelt-diff --retry
+```
+
+To refresh the database of synced files:
+```
+sudo gdelt-diff --refresh_database
 ```
 
 To see all options and flags:
 ```
-gdelt-diff -help
+sudo gdelt-diff -help
 ```

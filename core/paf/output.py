@@ -16,7 +16,7 @@ def progress_bar(iterable, prefix='Progress', suffix='Complete', fill='█', pri
         printEnd    - Optional  : end character (e.g. "\r", "\r\n") (Str)
     """
     total = len(iterable)
-    decimals = 1
+    decimals = 2
     length = os.get_terminal_size()[0] - (len(prefix) + len(suffix) + 15)
 
     # Progress Bar Printing Function

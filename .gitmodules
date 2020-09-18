@@ -1,3 +1,6 @@
 [submodule "core/paf"]
 	path = core/paf
 	url = https://github.com/JustinTimperio/paf.git
+[submodule "paf"]
+	path = paf
+	url = https://github.com/JustinTimperio/paf.git
