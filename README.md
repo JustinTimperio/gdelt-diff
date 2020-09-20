@@ -1,5 +1,5 @@
 # GDELT-Diff
-![Codacy grade](https://img.shields.io/codacy/grade/1596ab013d1f4ac99d5cfb86db94d7f2?label=codacy%20grade&style=for-the-badge)
+
 
 ## Abstract
 This small tool is designed to automate the download, orginization, and storage of [GDELT source files](https://www.gdeltproject.org/data.html#rawdatafiles). GDELT-Diff includes a deamon that runs every 60 mins fetching any new or missing files and sorts them into folders for easy storage. Additionally, an extremely lightweight tool is provided to maintain a copy of only the streams most recent files in /tmp/gdelt-live. This is for anyone doing real-time analysis of the GDELT and doesn't require a full copy of the source files.
