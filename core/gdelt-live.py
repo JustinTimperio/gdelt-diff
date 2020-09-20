@@ -3,6 +3,7 @@ import io
 import os
 import paf
 import zipfile
+import tempfile
 import requests
 import argparse
 
@@ -10,8 +11,8 @@ import argparse
 def gdelt_live(lang):
     last_eng = 'http://data.gdeltproject.org/gdeltv2/lastupdate.txt'
     last_trans = 'http://data.gdeltproject.org/gdeltv2/lastupdate-translation.txt'
-    old_fetch = '/tmp/gdelt-live/prev-' + lang + '.txt'
-    dl_path = '/tmp/gdelt-live/' + lang
+    old_fetch = tempfile.gettempdir() + '/gdelt-live/prev-' + lang + '.txt'
+    dl_path = tempfile.gettempdir() + '/gdelt-live/' + lang
 
     # Downloading Most Recent File List
     if 'english' == lang:
