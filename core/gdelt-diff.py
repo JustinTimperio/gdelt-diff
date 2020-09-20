@@ -67,9 +67,9 @@ def fetch(url_list, storage_path):
     return fzf_new
 
 
-def retry(lang, config):
+def retry(lang, uc, config):
     fzf_path = config['base'] + '/404-' + lang + '.txt'
-    fzf = fetch(paf.read_file(fzf_path))
+    fzf = fetch(paf.read_file(fzf_path), uc[lang + '_path'])
     paf.export_iterable(fzf_path, fzf)
 
 
