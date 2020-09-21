@@ -1,5 +1,26 @@
 #!/usr/bin/env bash
 
+## DEBIAN
+if [[ $osname == 'ubuntu' ]] || [[ $osname == 'debian' ]]; then
+  # Install Dependencies
+  apt --yes install python3 python3-requests
+
+## CENTOS
+elif [[ $osname == 'centos' ]] || [[ $osname == 'fedora' ]]; then
+  # Install Dependencies
+  yum -y install python38 python38-requests
+
+## ARCH
+elif [[ $osname == 'arch' ]] || [[ $osname == 'manjaro' ]]; then
+  # Install Dependencies
+  pacman -S --noconfirm --needed python python-requests
+
+## NOT SUPPORTED
+else
+  echo $osname Is Not Supported!
+  exit
+fi
+
 # Clone Repo
 sudo git clone --recurse-submodules https://github.com/JustinTimperio/gdelt-diff.git /opt/gdelt-diff
 
