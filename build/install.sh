@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+osname=$(cat /etc/*release | grep -Pi '^ID=' | head -1 | cut -c4- | sed -e 's/^"//' -e 's/"$//')
 
 ## DEBIAN
 if [[ $osname == 'ubuntu' ]] || [[ $osname == 'debian' ]]; then
